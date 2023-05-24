@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FAC
+﻿namespace FAC
 {
     public abstract class Override<T>
     {
-        protected T value;
+        public T OrigValue { get; }
         public Override(T value)
         {
-            this.value = value;
+            OrigValue = value;
         }
         public abstract T Value { get; set; }
         public abstract void Reset();
     }
     public class OverrideClass<T> : Override<T> where T : class
     {
-        T @override;
+        private T @override;
         public OverrideClass(T value) : base(value)
         {
         }
         public override T Value
         {
-            get => @override ?? value;
+            get => @override ?? OrigValue;
             set => @override = value;
         }
         public override void Reset()
@@ -38,13 +32,13 @@ namespace FAC
     }
     public class OverrideValue<T> : Override<T> where T : struct
     {
-        T? @override;
+        private T? @override;
         public OverrideValue(T value) : base(value)
         {
         }
         public override T Value
         {
-            get => @override ?? value;
+            get => @override ?? OrigValue;
             set => @override = value;
         }
         public override void Reset()

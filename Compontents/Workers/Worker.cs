@@ -1,11 +1,4 @@
-﻿using FAC.Compontents.Finders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader.IO;
 
 namespace FAC.Compontents.Workers
 {
@@ -13,5 +6,20 @@ namespace FAC.Compontents.Workers
     {
         public int ColdTimer;
         public OverrideValue<int> MaxCold { get; protected set; }
+        public override void SaveData(TagCompound tag)
+        {
+            base.SaveData(tag);
+            tag[nameof(MaxCold)] = MaxCold.OrigValue;
+            tag[nameof(ColdTimer)] = ColdTimer;
+        }
+        public override void LoadData(TagCompound tag)
+        {
+            base.LoadData(tag);
+            if (tag.TryGet(nameof(MaxCold), out int maxcold))
+            {
+                MaxCold = new(maxcold);
+            }
+            tag.TryGet(nameof(ColdTimer), out ColdTimer);
+        }
     }
 }

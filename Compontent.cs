@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace FAC
 {
@@ -16,5 +13,24 @@ namespace FAC
         public virtual bool CompatibleWith(Compontent other) => true;
         public virtual void OnEquip() { }
         public virtual void Draw() { }
+        public override void SaveData(TagCompound tag)
+        {
+            base.SaveData(tag);
+            tag[nameof(Foundation)] = Foundation.UID.ToString();
+        }
+        public override void LoadData(TagCompound tag)
+        {
+            if (tag.TryGet(nameof(Foundation), out string uid))
+            {
+                foreach (TileEntity te in TileEntity.ByID.Values)
+                {
+                    if (te is Foundation f && f.UID.ToString() == uid)
+                    {
+                        Foundation = f;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

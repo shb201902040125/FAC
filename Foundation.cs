@@ -1,22 +1,21 @@
 ﻿using FAC.Compontents.Auxiliaries;
 using FAC.Compontents.Finders;
-using Terraria;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
 using System.IO;
-using Terraria.ModLoader.IO;
+using System.Linq;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
 namespace FAC
 {
     public abstract class Foundation : ModTileEntity
     {
-        readonly List<Compontent> _compontents = new();
+        private readonly List<Compontent> _compontents = new();
+        public Guid UID { get; private set; }
         public bool AddCompontent(Compontent compontent)
         {
             if (!_compontents.All(c => c.CompatibleWith(compontent)))
@@ -100,11 +99,13 @@ namespace FAC
         }
         public override void SaveData(TagCompound tag)
         {
+            tag[nameof(UID)] = UID.ToString();
             tag[nameof(_compontents)] = _compontents.ConvertAll(c => c.Item);
         }
         public override void LoadData(TagCompound tag)
         {
             _compontents.Clear();
+            UID = tag.TryGet(nameof(UID), out string uid) ? Guid.Parse(uid) : (new());
             if (tag.TryGet(nameof(_compontents), out List<Item> items))
             {
                 items.ForEach(item => _compontents.Add((Compontent)item.ModItem));
@@ -112,8 +113,8 @@ namespace FAC
         }
         public override int Hook_AfterPlacement(int i, int j, int placeType, int style, int direction, int alternate)
         {
-            TileObjectData data = TileObjectData.GetTileData(Main.tile[i,j].TileType, style, alternate);
-            if(data is null)
+            TileObjectData data = TileObjectData.GetTileData(Main.tile[i, j].TileType, style, alternate);
+            if (data is null)
             {
                 throw new Exception("This foundation needs to be bound to ModTiles which have TileObjectData registered");
             }
@@ -140,9 +141,9 @@ namespace FAC
             Tile tile = Main.tile[x, y];
             return !tile.HasTile ? null : !Extensions.TryGetTileEntityAs<Foundation>(x, y, out var te) ? null : te;
         }
-        public static bool TryGet(out Foundation foundation, int x,int y)
+        public static bool TryGet(out Foundation foundation, int x, int y)
         {
-            foundation = Get(x,y);
+            foundation = Get(x, y);
             return foundation is not null;
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FAC.Compontents.Auxiliaries
+﻿namespace FAC.Compontents.Auxiliaries
 {
     public abstract class Auxiliary : Compontent
     {

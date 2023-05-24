@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace FAC
 {
-    internal abstract class FoundationTile<T>:ModTile where T:Foundation
+    internal abstract class FoundationTile<T> : ModTile where T : Foundation
     {
         public abstract int ItemType { get; }
         public override void MouseOver(int i, int j)
