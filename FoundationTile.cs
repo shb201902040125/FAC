@@ -35,9 +35,10 @@ namespace FAC
             {
                 throw new Exception("This foundation needs to be bound to ModTiles which have TileObjectData registered");
             }
+            var point = Extensions.GetTileOrigin(i, j);
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileSquare(Main.myPlayer, i - data.Origin.X, j - data.Origin.Y, data.Width, data.Height);
+                NetMessage.SendTileSquare(Main.myPlayer, point.X, point.Y, data.Width, data.Height);
             }
             return 0;
         }

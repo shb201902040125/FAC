@@ -45,8 +45,8 @@ namespace FAC.TestTE
         {
             if(Main.LocalPlayer.HeldItem.ModItem is Compontent c)
             {
-                Foundation.Get(i,j).AddCompontent((Compontent)c.Item.Clone().ModItem);
-                Main.LocalPlayer.HeldItem.TurnToAir();
+                Main.NewText(Foundation.Get(i, j) is null) ;//.AddCompontent((Compontent)c.Item.Clone().ModItem);
+                //Main.LocalPlayer.HeldItem.TurnToAir();
                 return true;
             }
             return base.RightClick(i, j);
@@ -56,6 +56,9 @@ namespace FAC.TestTE
     {
         public override void SetDefaults()
         {
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.createTile = ModContent.TileType<TurretTile>();
         }
     }

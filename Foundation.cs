@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -16,7 +17,7 @@ namespace FAC
     public abstract class Foundation : ModTileEntity
     {
         private readonly List<Compontent> _compontents = new();
-        public Guid UID { get; private set; }
+        public Guid UID { get; private set; } = new();
         public Vector2 Center
         {
             get
@@ -127,18 +128,20 @@ namespace FAC
         }
         public override int Hook_AfterPlacement(int i, int j, int placeType, int style, int direction, int alternate)
         {
+            Main.NewText("do this");
             TileObjectData data = TileObjectData.GetTileData(Main.tile[i, j].TileType, style, alternate);
             if (data is null)
             {
                 throw new Exception("This foundation needs to be bound to ModTiles which have TileObjectData registered");
             }
+            var point = Extensions.GetTileOrigin(i, j);
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileSquare(Main.myPlayer, i - data.Origin.X, j - data.Origin.Y, data.Width, data.Height);
-                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i - data.Origin.X, j - data.Origin.Y, Type);
+                NetMessage.SendTileSquare(Main.myPlayer, point.X, point.Y, data.Width, data.Height);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, point.X,point.Y, Type);
                 return -1;
             }
-            int placedEntity = Place(i - data.Origin.X, j - data.Origin.Y);
+            int placedEntity = Place(point.X, point.Y);
             if (ByID[placedEntity] is Foundation foundation)
             {
                 foundation._compontents.Clear();
@@ -153,7 +156,17 @@ namespace FAC
         public static Foundation Get(int x, int y)
         {
             Tile tile = Main.tile[x, y];
-            return !tile.HasTile ? null : !Extensions.TryGetTileEntityAs<Foundation>(x, y, out var te) ? null : te;
+            if(!tile.HasTile)
+            {
+                Main.NewText("No Tile");
+            }
+            if(!Extensions.TryGetTileEntityAs<Foundation>(x, y, out var te))
+            {
+                Main.NewText("No TileEntity");
+                Point16 origin = Extensions.GetTileOrigin(x, y);
+                Main.NewText($"{x}:{origin.X} {y}:{origin.Y}");
+            }
+            return !tile.HasTile ? null : !Extensions.TryGetTileEntityAs(x, y, out te) ? null : te;
         }
         public static bool TryGet(out Foundation foundation, int x, int y)
         {
