@@ -1,5 +1,6 @@
 ﻿using FAC.Compontents.Auxiliaries;
 using FAC.Compontents.Finders;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,19 @@ namespace FAC
     {
         private readonly List<Compontent> _compontents = new();
         public Guid UID { get; private set; }
+        public Vector2 Center
+        {
+            get
+            {
+                TileObjectData data = TileObjectData.GetTileData(Main.tile[Position.X, Position.Y]);
+                if (data is null)
+                {
+                    throw new Exception("This foundation needs to be bound to ModTiles which have TileObjectData registered");
+                }
+                var pos = Extensions.GetTileOrigin(Position.X, Position.Y);
+                return new Vector2(pos.X, pos.Y) * 16 + new Vector2(data.Width, data.Height) * 8;
+            }
+        }
         public bool AddCompontent(Compontent compontent)
         {
             if (!_compontents.All(c => c.CompatibleWith(compontent)))
@@ -124,7 +138,7 @@ namespace FAC
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i - data.Origin.X, j - data.Origin.Y, Type);
                 return -1;
             }
-            int placedEntity = Place(i - 3, j - 3);
+            int placedEntity = Place(i - data.Origin.X, j - data.Origin.Y);
             if (ByID[placedEntity] is Foundation foundation)
             {
                 foundation._compontents.Clear();

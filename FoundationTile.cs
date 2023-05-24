@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace FAC
 {
-    internal abstract class FoundationTile<T> : ModTile where T : Foundation
+    public abstract class FoundationTile<T> : ModTile where T : Foundation
     {
         public abstract int ItemType { get; }
         public override void MouseOver(int i, int j)
