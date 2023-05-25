@@ -133,7 +133,6 @@ namespace FAC
         }
         public override int Hook_AfterPlacement(int i, int j, int placeType, int style, int direction, int alternate)
         {
-            Main.NewText("do have entity");
             TileObjectData data = TileObjectData.GetTileData(Main.tile[i, j].TileType, style, alternate);
             if (data is null)
             {
@@ -160,17 +159,7 @@ namespace FAC
         public static Foundation Get(int x, int y)
         {
             Tile tile = Main.tile[x, y];
-            if(!tile.HasTile)
-            {
-                Main.NewText("No Tile");
-            }
-            if(!Extensions.TryGetTileEntityAs<Foundation>(x, y, out var te))
-            {
-                Main.NewText("No TileEntity");
-                Point16 origin = Extensions.GetTileOrigin(x, y);
-                Main.NewText($"{x}:{origin.X} {y}:{origin.Y}");
-            }
-            return !tile.HasTile ? null : !Extensions.TryGetTileEntityAs(x, y, out te) ? null : te;
+            return !tile.HasTile ? null : !Extensions.TryGetTileEntityAs(x, y, out Foundation te) ? null : te;
         }
         public static bool TryGet(out Foundation foundation, int x, int y)
         {

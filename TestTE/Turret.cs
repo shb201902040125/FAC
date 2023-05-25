@@ -42,8 +42,8 @@ namespace FAC.TestTE
         {
             if(Main.LocalPlayer.HeldItem.ModItem is Compontent c)
             {
-                Main.NewText(Foundation.Get(i, j) is null) ;//.AddCompontent((Compontent)c.Item.Clone().ModItem);
-                //Main.LocalPlayer.HeldItem.TurnToAir();
+                Foundation.Get(i, j).AddCompontent((Compontent)c.Item.Clone().ModItem);
+                Main.LocalPlayer.HeldItem.TurnToAir();
                 return true;
             }
             return base.RightClick(i, j);
@@ -51,6 +51,7 @@ namespace FAC.TestTE
     }
     internal class TurretTileItem : ModItem
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetDefaults()
         {
             Item.useTime = 10;
