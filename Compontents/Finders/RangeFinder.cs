@@ -3,10 +3,15 @@ using Terraria.ModLoader.IO;
 
 namespace FAC.Compontents.Finders
 {
-    public abstract class RangeFinder<T> : Worker<T>
+    public abstract class RangeFinder<T> : Finder<T>
     {
         public OverrideValue<float> MaxRange { get; protected set; }
         public OverrideValue<float> MinRange { get; protected set; }
+        public override void Update()
+        {
+            MaxRange.Reset();
+            MinRange.Reset();
+        }
         public override void SaveData(TagCompound tag)
         {
             base.SaveData(tag);

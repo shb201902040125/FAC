@@ -24,10 +24,8 @@ namespace FAC.TestTE
         public override int ItemType => ModContent.ItemType<TurretTileItem>();
         public override void SetStaticDefaults()
         {
-            SetFACStaticDefaults();
-
-            TileID.Sets.HasOutlines[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
+            SetFACStaticDefaults();
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.newTile.Origin = new Point16(3, 3);
@@ -39,7 +37,6 @@ namespace FAC.TestTE
             TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
 
             TileObjectData.addTile(Type);
-            DustType = 7;
         }
         public override bool RightClick(int i, int j)
         {

@@ -29,6 +29,10 @@
         {
             return @override.Value;
         }
+        public static explicit operator OverrideClass<T>(T value)
+        {
+            return new OverrideClass<T>(value);
+        }
     }
     public class OverrideValue<T> : Override<T> where T : struct
     {
@@ -48,6 +52,10 @@
         public static implicit operator T(OverrideValue<T> @override)
         {
             return @override.Value;
+        }
+        public static explicit operator OverrideValue<T>(T value)
+        {
+            return new OverrideValue<T>(value);
         }
     }
 }

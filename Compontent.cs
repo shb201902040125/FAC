@@ -6,6 +6,7 @@ namespace FAC
 {
     public abstract class Compontent : ModItem
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public Foundation Foundation { get; internal set; }
         public virtual bool IsVisible => true;
         public virtual bool IsActive => true;
@@ -16,7 +17,10 @@ namespace FAC
         public override void SaveData(TagCompound tag)
         {
             base.SaveData(tag);
-            tag[nameof(Foundation)] = Foundation.UID.ToString();
+            if (Foundation is not null)
+            {
+                tag[nameof(Foundation)] = Foundation.UID.ToString();
+            }
         }
         public override void LoadData(TagCompound tag)
         {

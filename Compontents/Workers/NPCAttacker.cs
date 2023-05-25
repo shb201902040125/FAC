@@ -23,6 +23,10 @@ namespace FAC.Compontents.Workers
             {
                 ColdTimer--;
             }
+            Damage.Reset();
+            Knockback.Reset();
+            Crit.Reset();
+            DamageType.Reset();
             Foundation.ApplyAuxiliaryTo(this);
             if (Foundation.TryGetTarget(out NPC target) && AttackNPC(target))
             {

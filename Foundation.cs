@@ -16,6 +16,7 @@ namespace FAC
 {
     public abstract class Foundation : ModTileEntity
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         private readonly List<Compontent> _compontents = new();
         public Guid UID { get; private set; } = new();
         public Vector2 Center
@@ -44,6 +45,10 @@ namespace FAC
         }
         public bool RemoveCompontent(Compontent compontent)
         {
+            if (compontent.Foundation == this)
+            {
+                compontent.Foundation = null;
+            }
             return _compontents.Remove(compontent);
         }
         public bool ContainsCompontent(Compontent compontent)
@@ -128,20 +133,19 @@ namespace FAC
         }
         public override int Hook_AfterPlacement(int i, int j, int placeType, int style, int direction, int alternate)
         {
-            Main.NewText("do this");
+            Main.NewText("do have entity");
             TileObjectData data = TileObjectData.GetTileData(Main.tile[i, j].TileType, style, alternate);
             if (data is null)
             {
                 throw new Exception("This foundation needs to be bound to ModTiles which have TileObjectData registered");
             }
-            var point = Extensions.GetTileOrigin(i, j);
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileSquare(Main.myPlayer, point.X, point.Y, data.Width, data.Height);
-                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, point.X,point.Y, Type);
+                NetMessage.SendTileSquare(Main.myPlayer, i - data.Origin.X, j - data.Origin.Y, data.Width, data.Height);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i - data.Origin.X,j - data.Origin.Y, Type);
                 return -1;
             }
-            int placedEntity = Place(point.X, point.Y);
+            int placedEntity = Place(i - data.Origin.X, j - data.Origin.Y);
             if (ByID[placedEntity] is Foundation foundation)
             {
                 foundation._compontents.Clear();
