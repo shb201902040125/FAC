@@ -1,11 +1,5 @@
-﻿using FAC;
-using FAC.Compontents.Workers;
+﻿using FAC.Compontents.Workers;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -40,7 +34,7 @@ namespace FAC.TestTE
         }
         public override bool RightClick(int i, int j)
         {
-            if(Main.LocalPlayer.HeldItem.ModItem is Compontent c)
+            if (Main.LocalPlayer.HeldItem.ModItem is Compontent c)
             {
                 Foundation.Get(i, j).AddCompontent((Compontent)c.Item.Clone().ModItem);
                 Main.LocalPlayer.HeldItem.TurnToAir();
@@ -64,7 +58,7 @@ namespace FAC.TestTE
     {
         public override bool AttackNPC(NPC target)
         {
-            if(Foundation is null)
+            if (Foundation is null)
             {
                 return false;
             }

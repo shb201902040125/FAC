@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 
 namespace FAC.Compontents.Finders
@@ -19,12 +14,12 @@ namespace FAC.Compontents.Finders
         public override bool TryFindTarget(out NPC target)
         {
             target = null;
-            if(Foundation is null)
+            if (Foundation is null)
             {
                 return false;
             }
             float dis = MaxRange;
-            foreach(NPC  npc in Main.npc)
+            foreach (NPC npc in Main.npc)
             {
                 if (!npc.active || npc.friendly || npc.dontTakeDamage || npc.dontTakeDamageFromHostiles)
                 {

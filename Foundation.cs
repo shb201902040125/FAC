@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -141,7 +140,7 @@ namespace FAC
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i - data.Origin.X, j - data.Origin.Y, data.Width, data.Height);
-                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i - data.Origin.X,j - data.Origin.Y, Type);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i - data.Origin.X, j - data.Origin.Y, Type);
                 return -1;
             }
             int placedEntity = Place(i - data.Origin.X, j - data.Origin.Y);

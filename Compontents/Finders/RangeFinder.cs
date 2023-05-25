@@ -1,5 +1,4 @@
-﻿using FAC.Compontents.Workers;
-using Terraria.ModLoader.IO;
+﻿using Terraria.ModLoader.IO;
 
 namespace FAC.Compontents.Finders
 {
