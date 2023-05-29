@@ -4,8 +4,8 @@ namespace FAC.Compontents.Finders
 {
     public abstract class RangeFinder<T> : Finder<T>
     {
-        public OverrideValue<float> MaxRange { get; protected set; }
-        public OverrideValue<float> MinRange { get; protected set; }
+        public OverrideValue<float> MaxRange { get; protected set; } = new(800);
+        public OverrideValue<float> MinRange { get; protected set; } = new(0);
         public override void Update()
         {
             MaxRange.Reset();

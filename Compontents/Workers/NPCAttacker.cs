@@ -9,10 +9,10 @@ namespace FAC.Compontents.Workers
 {
     public abstract class NPCAttacker : Worker<NPC>
     {
-        public OverrideValue<int> Damage { get; protected set; }
-        public OverrideValue<float> Knockback { get; protected set; }
-        public OverrideValue<int> Crit { get; protected set; }
-        public OverrideClass<DamageClass> DamageType { get; protected set; }
+        public OverrideValue<int> Damage { get; protected set; } = new(0);
+        public OverrideValue<float> Knockback { get; protected set; } = new(0);
+        public OverrideValue<int> Crit { get; protected set; } = new(0);
+        public OverrideClass<DamageClass> DamageType { get; protected set; } = new(DamageClass.Default);
         public override void Update()
         {
             if (!IsActive)
